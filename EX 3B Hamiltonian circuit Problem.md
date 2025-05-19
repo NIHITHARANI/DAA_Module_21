@@ -1,83 +1,65 @@
-# EX 3C Sudoku Solver
-## DATE: 22/03/2025
+# EX 3B Hamiltonian Circuit Problem
+## DATE: 18/03/2025
 ## AIM:
-To write a python program to find the solution of sudoku puzzle using Backtracking.
-
+To write a python program to check whether Hamiltonian path exits in the given graph.
 
 ## Algorithm
-1.Find an empty cell (with value 0) on the Sudoku board.
+1.Try each vertex as a possible starting point for the path.
 
-2.Try placing numbers (1–9) in the empty cell.
+2.From the current vertex, move to any unvisited adjacent vertex.
 
-3.For each number, check if it is valid by verifying the row, column, and 3x3 subgrid constraints.
+3.Keep adding valid vertices to the path until all N vertices are included.
 
-4.If a valid number is found, recursively attempt to solve the rest of the board.
+4.If a complete path is formed without revisiting vertices, return True.
 
-5.If the board is solvable, print the completed board; otherwise, backtrack and try another number.
+5.If stuck (no valid next move), backtrack to explore other possibilities.
 
-6.If no valid number fits, backtrack to previous cells until a solution is found or it's determined that the puzzle is unsolvable. 
-   
+6.If no complete path is found from any starting point, return False. 
+  
 
 ## Program:
 ```
 /*
-Program to implement to to find the solution of sudoku puzzle using Backtracking.
+Program to implement to check whether Hamiltonian path exits in the given graph.
 Developed by: NIHITHA RANI B
 Register Number: 212223040131
 */
-board = [
-    [0, 0, 0, 8, 0, 0, 4, 0, 3],
-    [2, 0, 0, 0, 0, 4, 8, 9, 0],
-    [0, 9, 0, 0, 0, 0, 0, 0, 2],
-    [0, 0, 0, 0, 2, 9, 0, 1, 0],
-    [0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [0, 7, 0, 6, 5, 0, 0, 0, 0],
-    [9, 0, 0, 0, 0, 0, 0, 8, 0],
-    [0, 6, 2, 7, 0, 0, 0, 0, 1],
-    [4, 0, 3, 0, 0, 6, 0, 0, 0]
-]
-
-def printBoard(board):
-    for i in range(0, 9):
-        for j in range(0, 9):
-            print(board[i][j], end=" ")
-        print()
-
-def isPossible(board, row, col, val):
-    for j in range(0, 9):
-        if board[row][j] == val:
-            return False
-
-    for i in range(0, 9):
-        if board[i][col] == val:
-            return False
-
-    startRow = (row // 3) * 3
-    startCol = (col // 3) * 3
-    for i in range(0, 3):
-        for j in range(0, 3):
-            if board[startRow+i][startCol+j] == val:
-                return False
-    return True
-
-def solve():
-    for i in range(0,9):
-        for j in range(0,9):
-            if board[i][j]==0:
-                for val in range(1,10):
-                    if isPossible(board,i,j,val):
-                        board[i][j]=val
-                        solve()
-                        board[i][j]=0
-                return
-    printBoard(board)
-solve()
+def Hamiltonian_path(adj, N):
+    path = [-1] * N
+    for i in range(N):
+        path[0] = i
+        pos = 1
+        while pos >=0:
+            if pos == N:
+                return True
+            found = False
+            for v in range(N):
+                if adj[path[pos-1]][v]==1 and v not in path[:pos]:
+                    path[pos] = v
+                    pos+=1
+                    found = True
+                    break
+            if not found:
+                pos-=1
+    return False
+    ######################### Add your Code here ##########################
+adj = [ [ 0, 1, 1, 1, 0 ] ,
+        [ 1, 0, 1, 0, 1 ],
+        [ 1, 1, 0, 1, 1 ],
+        [ 1, 0, 1, 0, 0 ] ]
+ 
+N = len(adj)
+ 
+if (Hamiltonian_path(adj, N)):
+    print("YES")
+else:
+    print("NO")
 ```
 
 ## Output:
 
-![image](https://github.com/user-attachments/assets/2ecdeabf-b38b-4182-9f59-2f55a8d79c0f)
+![image](https://github.com/user-attachments/assets/5dbf30b9-2d0c-4705-a442-8d14a86b0927)
 
 
 ## Result:
-The Sudoku solver program executed successfully and found the solution for the given puzzle.
+The Hamiltonian path program executed successfully, and it determined whether a Hamiltonian path exists in the given graph.
